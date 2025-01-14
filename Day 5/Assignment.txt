@@ -1,0 +1,18 @@
+Assignment 13-01-2025
+-------------------------------------------------------------
+* Enter number only for menu driven
+* Enter between 21 - 60
+* Enter correct choice for menu options
+--------------------------------------------------------------
+My solution
+--------------------------------------------------------------
+* Used inbuilt exception called 'InputMismatchException' to verify we take in only numeric values.
+* For 21 to 60, created a class InvalidAgeException and raised an exception within the Emp class if age taking in not between 21 and 60.
+* For correct choice range, created a class InvalidChoiceException.
+--------------------------------------------------------------
+Issues with my solution
+--------------------------------------------------------------
+* Not easily maintainable.
+* Not loosely coupled enough.
+* No Proper Exception Propagation.
+* Handling exceptions in the client side.
