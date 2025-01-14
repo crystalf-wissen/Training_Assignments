@@ -1,0 +1,28 @@
+Assignment 10-01-2025
+-------------------------------------------------------------
+* Assign each employee a unique ID
+* No one should be able to inherit from Clerk/Programmer
+* No one can override display method()
+* Keep all classes in emp.assignment package
+
+1. Create
+2. Display
+3. Raise Salary
+4. Remove
+5. Exit
+-------------------
+Enter choice:- 4
+Enter emp id : 55
+name
+age
+salary
+design
+
+--------------------------------------------------------------
+My solution
+--------------------------------------------------------------
+* To assign unique ID, I used a static variable 'empIdTracker' that is to be shared among all objects and incremented each time a new employee is created.
+* To prevent in inheritance, I used the keyword 'final' so it can't be extended further.
+* To prevent overriding of method display(), I used the keyword 'final' again.
+* To create a package, used the command package emp.assignment, compiled and created using javac -d . EmpManageApp.java and java emp.assignment.EmpManageApp
+* For the remove functionality, I check if the ID to remove exists, ask the user to reconfirm their choice, decrease the total count of employees and remove an employee by shifting array elements to the left.
