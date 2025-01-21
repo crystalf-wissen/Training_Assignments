@@ -49,7 +49,7 @@ public class GetClassDemo
 
 		for(int i=0; i<methods.length;i++)
 		{
-			System.out.println(methods[i]getAccessModifier()+methods[i].getName()+"()");
+			System.out.println(methods[i].getAccessModifier()+methods[i].getName()+"()");
 		}
 		System.out.println("}");
 	}
