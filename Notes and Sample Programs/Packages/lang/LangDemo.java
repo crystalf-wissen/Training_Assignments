@@ -16,7 +16,7 @@ public class LangDemo
 		sb1.append("hello");
 		System.out.println(sb1);
 
-		String s1 = "hi";
+		//String s1 = "hi";
 		String s2 = "hello";
 		String s3 = "thanks";
 		String s4 = "hi";
