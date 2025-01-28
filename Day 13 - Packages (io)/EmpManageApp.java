@@ -3,6 +3,7 @@ import java.util.*;
 import java.util.regex.*;
 import java.util.Map.Entry;
 
+
 class InvalidChoiceException extends RuntimeException {
     public InvalidChoiceException() {
     }
@@ -236,53 +237,26 @@ class Menu {
 class CSV {
     
     public static void updateEmployeeToCSV(HashMap<Integer, Emp> empMap) throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter("employees.csv", false));
-        for (Emp emp : empMap.values()) {
-            pw.println(emp);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("employees.ser"))) {
+            oos.writeObject(empMap);
         }
-        pw.flush();
-        pw.close();
     }
     
-    public static HashMap<Integer, Emp> readAllEmployeesFromCSV() throws IOException {
+    public static HashMap<Integer, Emp> readAllEmployeesFromCSV() throws IOException, ClassNotFoundException{
         HashMap<Integer, Emp> empMap = new HashMap<>();
-        BufferedReader br = new BufferedReader(new FileReader("employees.csv"));
-        String line;
-
-        while ((line = br.readLine()) != null) {
-            String[] fields = line.split(",");
-            int eid = Integer.parseInt(fields[0]);
-            String name = fields[1];
-            int age = Integer.parseInt(fields[2]);
-            float salary = Float.parseFloat(fields[3]);
-            String designation = fields[4];
-            
-            Emp emp = null;
-            switch (designation) {
-                case "Clerk":
-                    emp = new Clerk(eid, name, age, salary, designation);
-                    break;
-                case "Programmer":
-                    emp = new Programmer(eid, name, age, salary, designation);
-                    break;
-                case "Manager":
-                    emp = new Manager(eid, name, age, salary, designation);
-                    break;
-                case "CEO":
-                    emp = CEO.getCEO(eid, name, age, salary, designation);
-                    break;
-                default:
-                    System.out.println("Unknown designation: " + designation);
-                    continue;
+        File f = new File("employees.ser");
+        if (f.exists()) {
+              try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
+               
+                  empMap = (HashMap<Integer, Emp>) ois.readObject();
             }
-            empMap.put(eid, emp);
-        }
-        br.close();
+         }
         return empMap;
     }
 }
 
-abstract class Emp {
+
+abstract class Emp implements java.io.Serializable {
     int eid;
     String name;
     int age;
@@ -480,6 +454,9 @@ public class EmpManageApp {
             empMap = CSV.readAllEmployeesFromCSV();
         } catch (IOException e) {
             System.out.println("Error reading employees from CSV: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -515,9 +492,10 @@ public class EmpManageApp {
                                 case 3 -> newEmp = EmpFactory.createEmployee("Programmer");
                                 case 4 -> newEmp = EmpFactory.createEmployee("Manager");
                             }
-                            
+                            if(newEmp!=null){
                             empMap.put(newEmp.eid, newEmp);
-                            CSV.updateEmployeeToCSV(empMap);
+                             CSV.updateEmployeeToCSV(empMap);
+                            }
                           
                         } catch (CEOExistsException e) {
                             System.out.println(e.getMessage());
@@ -528,7 +506,7 @@ public class EmpManageApp {
                     break;
 
                 case 2:
-                    File f = new File("employees.csv");
+                    File f = new File("employees.ser");
                     if (!f.exists()) {
                         System.out.println("No Employee Present to Display");
                     } else {
