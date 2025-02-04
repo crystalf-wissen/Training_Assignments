@@ -10,8 +10,10 @@ public class RowSetDemo {
             rs.setUsername("postgres");
             rs.setPassword("tiger");
 
-            rs.setCommand("select * from emp");
+            rs.addRowSetListener(new MyListener());
+            rs.addRowSetListener(new MyListener2());
 
+            rs.setCommand("select * from emp");
             rs.execute();
 
             while(rs.next())
@@ -27,4 +29,36 @@ public class RowSetDemo {
             System.out.println(e);
         }
     }     
+}
+
+class MyListener implements RowSetListener
+{
+    public void cursorMoved(RowSetEvent evt)
+    {
+        System.out.println("------Cursor Moved--------");
+    }
+    public void rowChanged(RowSetEvent evt)
+    {
+        System.out.println("------Row Changed--------");
+    }
+    public void rowSetChanged(RowSetEvent evt)
+    {
+        System.out.println("------Row Set Changed--------");
+    }
+}
+
+class MyListener2 implements RowSetListener
+{
+    public void cursorMoved(RowSetEvent evt)
+    {
+        System.out.println("------Cursor Moved--------");
+    }
+    public void rowChanged(RowSetEvent evt)
+    {
+        System.out.println("------Row Changed--------");
+    }
+    public void rowSetChanged(RowSetEvent evt)
+    {
+        System.out.println("------Row Set Changed--------");
+    }
 }
