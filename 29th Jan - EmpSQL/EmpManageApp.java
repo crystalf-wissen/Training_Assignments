@@ -1,8 +1,9 @@
 import java.io.*;
 import java.util.*;
 import java.util.regex.*;
-import java.util.Map.Entry;
 import java.sql.*;
+import javax.sql.*;
+import javax.sql.rowset.*;
 
 class InvalidChoiceException extends RuntimeException {
     public InvalidChoiceException() {
@@ -120,22 +121,26 @@ class EID {
         while (true) {
             System.out.println("Enter the EID: ");
             int eid = 0;
-            try(
-                Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","tiger");
-                PreparedStatement pstmt = con.prepareStatement("SELECT * FROM emp WHERE eid = ?")
-            ) {
+            try {
                 eid = Integer.parseInt(br.readLine());
-                pstmt.setInt(1, eid);
-                try(ResultSet rs = pstmt.executeQuery()){
-                    if(rs.next())
+                try (JdbcRowSet rs = DatabaseUtil.createRowSet()) {
+                    rs.setCommand("select * from emp where eid = ?");
+                    rs.setInt(1, eid);
+                    rs.execute();
+                    if (rs.next()) {
                         throw new InvalidEIDException();
+                    }
                     return eid;
-                  }catch(SQLException e){
-                      System.out.println("SQL Exception"+e.getMessage());
-                  }
-            } catch (Exception e) {
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input format. Please enter a valid number.");
+            }
+             catch (Exception e) {
                 System.out.println(e);
-            }          
+            }
+
         }
     }
 }
@@ -146,8 +151,6 @@ abstract class Emp {
     int age;
     float salary;
     String designation;
-
-    static int countEmp = 0;
 
     Emp(float salary, String designation) {
         name = Name.readName();
@@ -163,15 +166,6 @@ abstract class Emp {
         this.age = age;
         this.salary = salary;
         this.designation = designation;
-    }
-
-    public void display() {
-        System.out.println("Eid: " + eid);
-        System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
-        System.out.println("Salary: " + salary);
-        System.out.println("Designation: " + designation);
-        System.out.println();
     }
 
     public abstract void raiseSalary();
@@ -224,7 +218,6 @@ class Manager extends Emp {
 }
 
 class EmpFactory {
-    private static boolean ceoCreated = false;
 
     public static Emp createEmployee(String type) {
         Emp newEmployee = null;
@@ -266,95 +259,163 @@ class Menu {
     }
 }
 
+interface EmpDAO
+{
+    void createNew(Emp emp);
+    void searchEmp(int option,String param);
+    void deleteEmp(int eid);
+    void raiseEmp(int eid, float raiseAmount);
+    void displayAll(int choice);
+}
 
-class DB{
-    public static void createNew(Emp newEmp){
-        try(
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","tiger");
-            PreparedStatement pstmt = con.prepareStatement("insert into emp values(?,?,?,?,?)");
-            ) {
-            
-                pstmt.setInt(1, newEmp.eid);      
-                pstmt.setString(2, newEmp.name);  
-                pstmt.setInt(3, newEmp.age);    
-                pstmt.setFloat(4, newEmp.salary);    
-                pstmt.setString(5, newEmp.designation);
-                
-                pstmt.execute();
-                System.out.println("Employee Saved!");
-       
-            }         
-         catch (Exception e) {
-            System.out.println(e);
+ class DatabaseUtil {
+
+    private static Connection con;
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String USER = "postgres";
+    private static final String PASS = "tiger";
+
+    private DatabaseUtil() {
+    }
+
+    public static Connection getConnection() {
+        try {
+            if (con == null || con.isClosed()) {
+                con = DriverManager.getConnection(DB_URL, USER, PASS);
+                 System.out.println("Database connection created.");
+            }
+            return con;
+        } catch (Exception e) {
+            System.out.println("Error getting the connection " + e.getMessage());
+            return null;
         }
-    }   
-    public static void searchEmp(int option,String param) {
-        try (
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "tiger");
-        ) {
+    }
+
+     public static void closeConnection() {
+        try {
+            if (con != null && !con.isClosed()) {
+                con.close();
+                System.out.println("Database connection closed.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error closing the connection " + e.getMessage());
+        } finally {
+            con = null;
+        }
+    }
+
+
+    public static JdbcRowSet createRowSet() throws SQLException {
+        JdbcRowSet jdbcRs = RowSetProvider.newFactory().createJdbcRowSet();
+        jdbcRs.setUrl(DB_URL);
+        jdbcRs.setUsername(USER);
+        jdbcRs.setPassword(PASS);
+        return jdbcRs;
+    }
+}
+
+class EmpDAOImpl implements EmpDAO{
+
+    public EmpDAOImpl() {
+    }
+
+    public void createNew(Emp newEmp) {
+        try (JdbcRowSet jdbcRs = DatabaseUtil.createRowSet()) {
+ 
+            jdbcRs.setCommand("select * from emp");
+            jdbcRs.execute();
+ 
+            jdbcRs.moveToInsertRow();
+            jdbcRs.updateInt("eid", newEmp.eid);
+            jdbcRs.updateString("name", newEmp.name);
+            jdbcRs.updateInt("age", newEmp.age);
+            jdbcRs.updateFloat("salary", newEmp.salary);
+            jdbcRs.updateString("designation", newEmp.designation);
+            jdbcRs.insertRow();
+ 
+            System.out.println("Employee Saved!");
+ 
+        }catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void searchEmp(int option, String param) {
+        try (JdbcRowSet rs = DatabaseUtil.createRowSet()) {
             String query = "";
-            PreparedStatement pstmt = null;
 
             switch (option) {
                 case 1:
                     query = "select * from emp where eid = ?";
-                    try {
-                        pstmt = con.prepareStatement(query);
-                        int eid = Integer.parseInt(param);
-                        pstmt.setInt(1, eid);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
+                    rs.setCommand(query);
+                    rs.setInt(1, Integer.parseInt(param));
                     break;
 
                 case 2:
                     query = "select * from emp where designation = ?";
-                    try {
-                        pstmt = con.prepareStatement(query);
-                        pstmt.setString(1, param);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
+                    rs.setCommand(query);
+                    rs.setString(1, param);
                     break;
-
 
                 case 3:
                     query = "select * from emp where name = ?";
-                    try {
-                        pstmt = con.prepareStatement(query);
-                        pstmt.setString(1, param);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
+                    rs.setCommand(query);
+                    rs.setString(1, param);
                     break;
 
-
                 default:
-                    System.out.println("Invalid option. Please select a valid option.");
+                    System.out.println("Invalid option.");
                     return;
             }
 
-            try (ResultSet rs = pstmt.executeQuery()) {
-                boolean found = false;
-                while (rs.next()) {
-                    found = true;
-                    int id = rs.getInt("eid");
-                    String empName = rs.getString("name");
-                    String empDesignation = rs.getString("designation");
-                    int empAge = rs.getInt("age");
-                    double empSalary = rs.getDouble("salary");
+            rs.execute();
+            displayResultSet(rs);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
-                    System.out.println("Employee ID: " + id);
-                    System.out.println("Name: " + empName);
-                    System.out.println("Designation: " + empDesignation);
-                    System.out.println("Age: " + empAge);
-                    System.out.println("Salary: " + empSalary);
-                    System.out.println("---------------------------------------------");
-                }
-                if (!found) {
-                    System.out.println("No employee found with the given criteria.");
-                }
+
+    public void deleteEmp(int eid) {
+        try (JdbcRowSet rs = DatabaseUtil.createRowSet()) {
+            rs.setCommand("select * from emp where eid = ?");
+            rs.setInt(1, eid);
+            rs.execute();
+
+            if(rs.next())
+            {
+                rs.deleteRow();
+                System.out.println("Employee with ID " + eid + " has been successfully deleted.");
+            }else
+            {
+                System.out.println("No employee found with ID " + eid);
             }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    public void raiseEmp(int eid, float raiseAmount) {
+        try (JdbcRowSet rs = DatabaseUtil.createRowSet()) {
+
+            rs.setCommand("SELECT * FROM emp WHERE eid = ?");
+            rs.setInt(1, eid);
+            rs.execute();
+            
+              if (rs.next()) {
+                float currentSalary = rs.getFloat("salary");
+                float newSalary = currentSalary + raiseAmount;
+                
+                rs.updateFloat("salary",newSalary);
+
+                  rs.updateRow();
+                   System.out.println("Employee salary updated!");
+            } else {
+                System.out.println("Employee not found!");
+            }
+
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -362,38 +423,70 @@ class DB{
         }
     }
 
-    public static void deleteEmp(int eid) {
-        try (
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "tiger");
-        ) {
-            String query = "delete from emp where eid = ?";
-            
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setInt(1, eid); 
-
-                int rowsAffected = pstmt.executeUpdate();
-                
-                if (rowsAffected > 0) {
-                    System.out.println("Employee with ID " + eid + " has been successfully deleted.");
-                } else {
-                    System.out.println("No employee found with ID " + eid + ". Deletion failed.");
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+    public void displayAll(int choice){
+        try(JdbcRowSet rs = DatabaseUtil.createRowSet()) {
+            String query = "select * from emp ";
+            switch (choice) {
+                case 1:
+                    query += "order by eid";
+                    break;
+                case 2:
+                    query += "order by designation";
+                    break;
+                case 3:
+                    query += "order by name";
+                    break;
+                case 4:
+                    query += "order by age";
+                    break;
+                 case 5:
+                    query += "order by salary";
+                    break;
+             }
+            rs.setCommand(query);
+            rs.execute();
+            displayResultSet(rs);
+        }catch (Exception e) {
+            System.out.println(e);
         }
     }
 
-    public static void raiseEmp(int eid, float salary){
-        
+    private void displayResultSet(JdbcRowSet rs) throws SQLException {
+        boolean found = false;
+        while (rs.next()) {
+            found = true;
+            int id = rs.getInt("eid");
+            String empName = rs.getString("name");
+            String empDesignation = rs.getString("designation");
+            int empAge = rs.getInt("age");
+            double empSalary = rs.getDouble("salary");
+
+            System.out.println("Employee ID: " + id);
+            System.out.println("Name: " + empName);
+            System.out.println("Designation: " + empDesignation);
+            System.out.println("Age: " + empAge);
+            System.out.println("Salary: " + empSalary);
+            System.out.println("---------------------------------------------");
+        }
+
+        if (!found) {
+            System.out.println("No employee found.");
+        }
     }
-    
 }
+
 
 public class EmpManageApp {
     public static void main(String[] args) {
+        Connection con = DatabaseUtil.getConnection();
+        if(con == null) {
+           System.out.println("Failed to connect to the database.");
+           return;
+        }
+        EmpDAO empDAO = new EmpDAOImpl();
+
         int ch1 = 0, ch2 = 0, ch3 = 0;
-        
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         do {
@@ -428,9 +521,9 @@ public class EmpManageApp {
                                 case 4 -> newEmp = EmpFactory.createEmployee("Manager");
                             }
                             if(newEmp!=null){
-                             DB.createNew(newEmp);
+                                empDAO.createNew(newEmp);
                             }
-                          
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -438,16 +531,12 @@ public class EmpManageApp {
                     break;
 
                 case 2:
-                    try(
-                        Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","tiger");
-                        Statement stmt = con.createStatement();
-                        ){
-                            ResultSet rs = stmt.executeQuery("select * from emp");
-                            if(!rs.next()){
-                                System.out.println("No Employee Present to Display");
-                            } else {
-                                System.out.println("Display By: ");
-                                do {
+
+                        if(checkEmptyTable()){
+                            System.out.println("No Employee Present to Display");
+                        } else {
+                             do {
+                                    System.out.println("Display By: ");
                                     System.out.println("---------------------------------------------");
                                     System.out.println("1. ID");
                                     System.out.println("2. Designation");
@@ -457,49 +546,13 @@ public class EmpManageApp {
                                     System.out.println("6. Back");
                                     System.out.println("--------------------------------------------");
                                     ch3 = Menu.readChoice(6);
-                                    
-                                    try {
-                                                                    
-                                        switch (ch3) {
-                                            case 1:
-                                                rs = stmt.executeQuery("select * from emp order by eid");
-                                                break;
-                                            case 2:
-                                                rs = stmt.executeQuery("select * from emp order by designation");
-                                                break;
-                                            case 3:
-                                                rs = stmt.executeQuery("select * from emp order by name");
-                                                break;
-                                            case 4:
-                                                rs = stmt.executeQuery("select * from emp order by age");
-                                                break;
-                                            case 5:
-                                                rs = stmt.executeQuery("select * from emp order by salary");
-                                                break;
-                                        }
 
-                                        while (rs.next()) {
-                                            int id = rs.getInt("eid");
-                                            String name = rs.getString("name");
-                                            String designation = rs.getString("designation");
-                                            int age = rs.getInt("age");
-                                            double salary = rs.getDouble("salary");
-                    
-                                            System.out.println("Employee ID: " + id);
-                                            System.out.println("Name: " + name);
-                                            System.out.println("Designation: " + designation);
-                                            System.out.println("Age: " + age);
-                                            System.out.println("Salary: " + salary);
-                                            System.out.println("---------------------------------------------");
-                                        }
+                                    try {
+                                        empDAO.displayAll(ch3);
                                     } catch (CEOExistsException e) {
                                         System.out.println(e.getMessage());
-                                    } 
-                                } while (ch3 != 6);
-                            }
-                            rs.close(); 
-                        }catch(Exception e){
-                            System.out.println(e);
+                                    }
+                             } while (ch3 != 6);
                         }
                     break;
 
@@ -509,17 +562,17 @@ public class EmpManageApp {
                         int eid = Integer.parseInt(br.readLine());
                         System.out.println("Enter amount for appraisal: ");
                         float salary = Float.parseFloat(br.readLine());
-                        DB.raiseEmp(eid,salary);
+                        empDAO.raiseEmp(eid,salary);
                     } catch (Exception e) {
                         System.out.println("Invalid ID input. Please enter a valid integer.");
                     }
                     break;
-                
+
                 case 4:
                     try {
                         System.out.println("Enter the ID to delete: ");
                         int eid = Integer.parseInt(br.readLine());
-                        DB.deleteEmp(eid);
+                        empDAO.deleteEmp(eid);
                     } catch (Exception e) {
                         System.out.println(e);
                     }
@@ -542,7 +595,7 @@ public class EmpManageApp {
                                     try {
                                         System.out.println("Enter ID: ");
                                         String eid = br.readLine();
-                                        DB.searchEmp(1,eid);
+                                        empDAO.searchEmp(1,eid);
                                     } catch (Exception e) {
                                         System.out.println("Invalid ID input. Please enter a valid integer.");
                                     }
@@ -551,7 +604,7 @@ public class EmpManageApp {
                                     try {
                                         System.out.println("Enter Designation: ");
                                         String designation = br.readLine();
-                                        DB.searchEmp(2,designation);
+                                        empDAO.searchEmp(2,designation);
                                     } catch (Exception e) {
                                         System.out.println(e);
                                     }
@@ -560,19 +613,28 @@ public class EmpManageApp {
                                     try {
                                         System.out.println("Enter Name: ");
                                         String name = br.readLine();
-                                        DB.searchEmp(3,name);
+                                        empDAO.searchEmp(3,name);
                                     } catch (Exception e) {
                                         System.out.println(e);
                                     }
                                 break;
                             }
                         } while (ch3 != 4);
-                            
-                        }
+                    }
                     break;
             }
         } while (ch1 != 6);
+        DatabaseUtil.closeConnection();
+    }
 
-        System.out.println("Total Employees Present in the Company: " + Emp.countEmp);
+    private static boolean checkEmptyTable() {
+        try (JdbcRowSet rs = DatabaseUtil.createRowSet()) {
+            rs.setCommand("select * from emp");
+            rs.execute();
+            return !rs.next();
+        } catch (Exception e) {
+            System.out.println(e);
+            return true;
+        }
     }
 }
