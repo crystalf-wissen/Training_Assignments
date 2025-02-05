@@ -1,6 +1,7 @@
 /.metadata/
 # Ignore executable files
 *.exe
+*.class
 
 # Ignore specific directories or files
 Notes and Sample Programs/Mongo/mongodb-compass-1.45.2-win32-x64.exe
