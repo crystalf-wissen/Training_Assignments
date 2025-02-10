@@ -1,0 +1,131 @@
+import java.util.*;
+import java.util.concurrent.*;
+
+class BikerData {
+    private String name;
+    private long startTime;
+    private long endTime;
+    private long duration;
+
+    public BikerData(String name, long startTime, long endTime, long duration) {
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.duration = duration;
+    }
+
+    public String toString() {
+        return name + " | Start Time: " + startTime + " | End Time: " + endTime + " | Duration: " + duration + " ms";
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+}
+
+class Biker implements Callable<BikerData> {
+    private int distCovered = 0;
+    private Random rand;
+    private long startTime;
+    private long endTime;
+
+    public Biker() {
+        rand = new Random();
+    }
+
+    @Override
+    public BikerData call() throws Exception {
+        startTime = System.currentTimeMillis();
+        System.out.println(Thread.currentThread().getName() + " started at " + startTime);
+
+        while (distCovered < RacingDetails.distance) {
+            try {
+                Thread.sleep(rand.nextInt(100));
+                distCovered += rand.nextInt(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+
+        return new BikerData(Thread.currentThread().getName(), startTime, endTime, elapsedTime);
+    }
+}
+
+class RacingDetails {
+    static int noOfBikers;
+    static int distance;
+}
+
+public class BikeGame {
+    public static List<BikerData> bikerDataList = new ArrayList<>();
+    private static CountDownLatch startLatch;
+
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of bikers: ");
+        RacingDetails.noOfBikers = sc.nextInt();
+
+        System.out.print("Enter race distance in meters: ");
+        RacingDetails.distance = sc.nextInt();
+
+        // Create ExecutorService to manage threads
+        ExecutorService executorService = Executors.newFixedThreadPool(RacingDetails.noOfBikers);
+
+        // Initialize CountDownLatch to synchronize race start
+        startLatch = new CountDownLatch(1);
+
+        List<Callable<BikerData>> tasks = new ArrayList<>();
+        for (int i = 0; i < RacingDetails.noOfBikers; i++) {
+            tasks.add(new Biker());
+        }
+
+        countdown();
+
+        // Start the race by counting down the latch
+        startLatch.countDown();
+
+        // Submit all bikers to the executor service
+        List<Future<BikerData>> results = executorService.invokeAll(tasks);
+
+        // Wait for all results and collect data
+        for (Future<BikerData> result : results) {
+            bikerDataList.add(result.get());
+        }
+
+        // Sort the results by race duration
+        bikerDataList.sort(Comparator.comparingLong(BikerData::getDuration));
+
+        System.out.println("-----------------Dashboard-----------------");
+        for (BikerData data : bikerDataList) {
+            System.out.println(data);
+        }
+
+        // Shut down the executor service
+        executorService.shutdown();
+    }
+
+    static void countdown() {
+        System.out.println("Race starting in...");
+
+        for (int i = 10; i > 0; i--) {
+            System.out.println(i);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Go!");
+
+        // Notify all bikers to start by releasing the latch
+        try {
+            startLatch.await(); // Ensure that all bikers start at the same time
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
