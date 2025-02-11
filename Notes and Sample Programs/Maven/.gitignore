@@ -1,0 +1,14 @@
+/.metadata/
+# Ignore the target directory where Maven puts compiled code and build outputs
+target/
+
+# Ignore the .m2 directory (local Maven repository) where dependencies are cached
+.m2/
+
+# Ignore the Maven wrapper directory (if you're using Maven wrapper)
+.mvn/
+
+# Ignore logs or other files that might be generated during build
+*.log
+
+apache-maven-3.9.9/
