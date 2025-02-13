@@ -10,10 +10,6 @@ class Calculator
 	{
 		System.out.println("Subtract : "+(a-b));
 	}
-	public void mul(int a, int b)
-	{
-		System.out.println("Multiply : "+(a * b));
-	}
 }
 public class CalculatorMain
 {
@@ -24,6 +20,5 @@ public class CalculatorMain
 		Calculator c1 = new Calculator();
 		int a = c1.add(10, 20);
 		c1.sub(10, 20);
-		c1.mul(10, 20);
 	}
 }
