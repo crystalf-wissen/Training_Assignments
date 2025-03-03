@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+</head>
+<body>
+    <h1>Employee Management</h1>
+
+    <div>
+        <h2>Add Employee</h2>
+        <form id="addEmployeeForm">
+            <input type="text" id="empId" placeholder="Employee ID" required />
+            <input type="text" id="empName" placeholder="Employee Name" required />
+            <input type="number" id="empAge" placeholder="Employee Age" required />
+            <label for="empDesignation">Employee Designation:</label>
+            <select id="empDesignation" required>
+                <option value="clerk">Clerk</option>
+                <option value="programmer">Programmer</option>
+                <option value="manager">Manager</option>
+            </select><br><br>
+            <button onclick="addEmployeeFromHTML()" type="submit">Add Employee</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Search Employee</h2>
+        <input type="text" id="searchEmpId" placeholder="Employee ID" />
+        <button  onclick="searchEmployeeFromHTML()" id="searchEmployeeBtn">Search</button>
+    </div>
+
+    <div>
+        <h2>Remove Employee</h2>
+        <input type="text" id="removeEmpId" placeholder="Employee ID to Remove" />
+        <button id="removeEmployeeBtn" onclick="removeEmployeeFromHTML()">Remove Employee</button>
+    </div>
+
+    <div>
+        <h2>All Employees</h2>
+        <ul id="employeeList"></ul>
+        <button onclick="displayEmployeesFromHTML()">Display Employees</button>
+    </div>
+    <script src="EmpManageApp.js"></script>
+    <script>
+        const app = new EmpManageApp();
+        function addEmployeeFromHTML() {
+            event.preventDefault();
+            const empId = document.getElementById('empId').value;
+            const empName = document.getElementById('empName').value;
+            const empAge = document.getElementById('empAge').value;
+            const empDesignation = document.getElementById('empDesignation').value;
+
+            const parsedAge = parseInt(empAge);
+
+            let newEmployee;
+
+            if (empDesignation.toLowerCase() === 'clerk') {
+                newEmployee = new Clerk(empId, empName, parsedAge);
+            } else if (empDesignation.toLowerCase() === 'programmer') {
+                newEmployee = new Programmer(empId, empName, parsedAge);
+            } else if (empDesignation.toLowerCase() === 'manager') {
+                newEmployee = new Manager(empId, empName, parsedAge);
+            } else {
+                alert("Invalid designation. Please use Clerk, Programmer, or Manager.");
+                return;
+            }       
+
+            if (newEmployee) {
+                app.addEmployee(newEmployee);
+                console.log("New Employee Object:", newEmployee);
+            }
+        }
+        function searchEmployeeFromHTML() {
+            event.preventDefault();
+            const empId = document.getElementById('searchEmpId').value;
+            const employee = app.searchEmployee(empId);
+        }
+        function removeEmployeeFromHTML() {
+            event.preventDefault();
+            const empId = document.getElementById('removeEmpId').value;
+            app.removeEmployee(empId);
+        }
+    </script>
+</body>
+</html>
