@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OUR BANK - Signup</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>OUR BANK</h1>
+        <h2>Banking at your Doorstep</h2>
+    </div>
+
+    <div class="middle-section">
+        <div class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="netbanking.html">NetBanking</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="content-section" id="signup">
+                <h2>Create Your NetBanking Account</h2>
+                <p>Experience the convenience of managing your finances online.</p>
+                <form class="signup-form">
+                    <div class="signup-form-group">
+                        <label for="customerid-signup" class="signup-label">Customer ID</label>
+                        <input type="text" id="customerid-signup" name="customerid-signup" class="signup-input" placeholder="Enter Your Customer ID"
+                               required pattern="[a-zA-Z0-9]+" title="Customer ID must be alphanumeric">
+                    </div>
+                    <div class="signup-form-group">
+                        <label for="password-signup" class="signup-label">Password</label>
+                        <input type="password" id="password-signup" name="password-signup" class="signup-input" placeholder="Enter New Password"
+                               required minlength="6" title="Password must be at least 6 characters long">
+                    </div>
+                    <div class="signup-form-group">
+                        <label for="confirm-password-signup" class="signup-label">Confirm Password</label>
+                        <input type="password" id="confirm-password-signup" name="confirm-password-signup" class="signup-input" placeholder="Confirm Your Password"
+                               required minlength="6" title="Password must be at least 6 characters long">
+                    </div>
+                    <button type="submit" class="signup-button">Create Account</button>
+                    <div class="login-back-link">
+                        <p>Already a member? <a href="netbanking.html">Back to Login</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © www.ourbank.com
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>CSS Selectors</title>
+  <style>
+    p.one { color: red; }
+    p.two { color: blue; }
+    .three { color: purple; }
+    #four { color: green; }
+    span { color: brown; }
+    span > span { background-color: lime; }
+    p::first-letter { color:red; font-size: 30px;}
+    h1::before { content: 'Welcome Mr./Ms.' }
+    h1::after { content: ' Have a pleasant stay here :)' }
+  </style>
+</head>
+<body>
+  <h1>Crystal</h1>
+  <h1>Carol</h1>
+  <h1>Carina</h1>
+  <p class="one">This is from first Paragraph</p>
+  <p id="four">This is from second Paragraph</p>
+  <p class="two">This is from third Paragraph</p>
+  <p class="three">This is from fourth Paragraph</p>
+  <div class="three">This is from the div block</div>
+  <br>
+  <span>This is <span>from the</span> span tag</span><br>
+  <span>This is from the span tag</span><br>
+  <span>This is from the span tag</span><br>
+  <p>This is for the psuedo elements</p><p>This is for the psuedo elements</p><p>This is for the psuedo elements</p>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Media Queries</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease, transform 0.3s ease;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            padding: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 1.2em;
+            max-width: 800px;
+            line-height: 1.6;
+            transition: transform 0.3s ease, color 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+
+        @media screen and (max-width:1000px) {
+            body {
+                background-color: #e74c3c;
+                color: yellow;
+                transform: rotate(2deg);
+            }
+
+            h1 {
+                animation: bounce 1s ease infinite;
+                color: #fff;
+            }
+
+            p {
+                animation: slideIn 1s ease-out;
+                color: #ffcc00;
+                text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            }
+        }
+
+        @media screen and (max-width:700px) {
+            body {
+                background-color: #8e44ad;
+                color: white;
+                transform: scale(1.05);
+            }
+
+            h1 {
+                font-size: 2.5em;
+                animation: bounce 0.5s ease infinite;
+                color: #fff;
+                text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            }
+
+            p {
+                font-size: 1.1em;
+                color: #f39c12;
+                transform: translateY(-10px);
+                text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            }
+        }
+
+        @media screen and (max-width:500px) {
+            body {
+                background-color: #34495e;
+                color: #ecf0f1;
+                transform: scale(1.1);
+            }
+
+            h1 {
+                font-size: 2em;
+                animation: bounce 0.3s ease infinite;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+            }
+
+            p {
+                font-size: 1em;
+                color: #ecf0f1;
+                transform: translateY(-5px);
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            }
+        }
+
+        @media screen and (max-width:400px) {
+            h1 {
+                font-size: 1.8em;
+                color: #f39c12;
+                text-shadow: none;
+            }
+
+            p {
+                font-size: 0.9em;
+                color: #ecf0f1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>This is some text</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+</body>
+</html>

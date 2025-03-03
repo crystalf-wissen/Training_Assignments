@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>DOM DEMO</title>
+        <script>
+            // Function for displaying welcome with fname and lname as arguments
+            function welcome1(fname,lname) {
+                alert("Welcome " + fname + " " + lname);
+            }
+
+            // Function for displaying welcome using getElementsByName
+            function welcome2() {
+                var fname = document.getElementsByName("fname")[0].value;
+                var lname = document.getElementsByName("lname")[0].value;
+                alert("Welcome " + fname + " " + lname);
+            }
+
+            // Function for displaying welcome using getElementById
+            function welcome3() {
+                var fname = document.getElementById("i1").value; 
+                var lname = document.getElementById("i2").value; 
+                alert("Welcome " + fname + " " + lname);
+            }
+
+            // Function for displaying welcome using form elements
+            function welcome4() {
+                var fname = document.forms["f1"]["fname"].value;
+                var lname = document.forms["f1"]["lname"].value;
+                alert("Welcome " + fname + " " + lname);
+            }
+
+            // Function for displaying welcome using document.f1 
+            function welcome5() {
+                var x = document.f1.t1.value;
+                alert("Welcome " + x);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>DOM DEMO</h1>
+        <hr>
+        <h2>Greet user</h2>
+        <form name="f1">
+            <h3>
+                First Name: <input type="text" id="i1" name="fname"><br>
+                Last Name: <input type="text" id="i2" name="lname"><br>
+                <input type="button" value="Welcome1" onclick="welcome1(fname,lname)">
+                <input type="button" value="Welcome2" onclick="welcome2()">
+                <input type="button" value="Welcome3" onclick="welcome3()">
+                <input type="button" value="Welcome4" onclick="welcome4()">
+                <input type="button" value="Welcome5" onclick="welcome5()">
+            </h3>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Queries</title>
+    <style>
+        @media screen and (max-width:1000px) {
+            body{
+                background-color: red;
+                color: yellow;
+            }
+        }
+        @media screen and (max-width:700px) {
+            body{
+                background-color: purple;
+                color: white;
+            }
+        }
+        div {
+            background-color: purple;
+            width: 100px;
+            height: 100px;
+            color: white;
+            margin: 20px;
+            padding: 20px;
+            animation-name: p2w;
+            animation-duration: 5s;
+            /* animation-delay: 5s; */
+            animation-iteration-count: infinite;
+            /* animation: p2w 10s; */
+        }
+        @keyframes p2w {
+            from { background-color: purple; color: white; }
+            to {background-color: white; color: purple; }
+        }
+    </style>
+</head>
+<body>
+    <h1>This is some text</h1>
+    <hr>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+    <hr>
+    <div>
+        HI KEEP LOOKING AT ME AS I AM CHANGING MY COLOR GRADUALLY
+    </div>
+</body>
+</html>

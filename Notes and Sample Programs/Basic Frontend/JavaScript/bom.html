@@ -1,0 +1,67 @@
+<html>
+<head>
+    <script>
+        function closePage() {
+            var flag = window.confirm("Do you really want to close this page?");
+            if (flag) {
+                window.close();
+            }
+        }
+
+        function greet() {
+            var name = window.prompt("Please enter your name: ");
+            document.write("<h2>Welcome! " + name + "</h2>");
+        }
+    </script>
+</head>
+<body>
+    <h1>Browser Object Model</h1>
+    <hr>
+    <h2>Window Object</h2>
+    <script>
+        document.write("window is the root object");
+        // window.alert("Good Morning Everyone");
+    </script>
+    <br><br>
+    <input type="button" value="CLOSE" onclick="closePage()">
+    <input type="button" value="GREET" onClick="greet()">
+    <hr>
+
+    <h2>Location Object</h2>
+    <script>
+        document.write("location is to provide details of url<br><br>");
+        document.write("Protocol: " + location.protocol + "<br>");
+        document.write("Resource Path: " + location.pathname + "<br>");
+        //location.assign("abc.html");
+        //location.href = "abc.html";
+    </script>
+
+    <hr>
+    <h2>History Object</h2>
+    <script>
+        document.write("history is to keep track of the sites/url visited<br><br>");
+        //history.back();
+        //history.forward();
+    </script>
+    <hr>
+    <h2>Navigator Object</h2>
+    <script>
+        document.write("navigator is to keep track of the sites/urls visited<br><br>");
+        document.write("Browser Name: " + navigator.appName + "<br>");
+        document.write("Browser Version: " + navigator.appVersion + "<br>");
+        document.write("Platform: " + navigator.platform + "<br>");
+        document.write("User-Agent: " + navigator.userAgent + "<br>");
+        document.write(navigator.appCodeName+ "<br>");
+    </script>
+    <hr>
+    <h2>Screen Object</h2>
+    <script>
+        document.write("screen is to keep track of the screen size<br><br>");
+        document.write("Screen Width: " + screen.width + "<br>");
+        document.write("Screen Height: " + screen.height + "<br>");
+        document.write("Color Depth: " + screen.colorDepth + "<br>");
+        document.write("Avail Width: " + screen.availWidth + "<br>");
+        document.write("Avail Height: " + screen.availHeight + "<br>");
+    </script>
+</body>
+</html>

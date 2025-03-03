@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>
+            Box types
+        </title>
+        <style>
+            div.box{
+                width: 150px;
+                height: 150px;
+                background-color: yellow;
+                padding: 20px;
+                border: 10px solid red;
+                margin: 50px;
+            }
+            .my-flex-container{
+                display: flex;
+                background-color: yellow;
+            }
+            .my-flex-container>div{
+                background-color: red;
+                padding: 20px;
+                margin: 10px;
+                color: white;
+            }
+            .calculator{
+                border: 1px solid black;
+                width: fit-content;
+                padding: 10px;
+            }
+            .my-calculator{
+                display: grid;
+                grid-template-columns: auto auto auto auto;
+                width: 200px;
+                margin-top: 5px;
+            }
+            .my-calculator>div{
+                background-color: purple;
+                color: white;
+                padding: 10px;
+                text-align: center;
+                border: 0.1px solid black;
+            }
+            input{
+                width: 200px;
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>CSS Box Model</h1>
+        <hr>
+        <div class="box">
+            THIS IS TO HOLD CONTENT WITH CSS BOX MODEL
+        </div>
+        <hr>
+        <h1>CSS Flex Box Model</h1>
+        <hr>
+        <div class="my-flex-container">
+            <div>THIS IS TO HOLD CONTENT WITH CSS FLEX BOX MODEL</div>
+            <div>THIS IS TO HOLD CONTENT WITH CSS FLEX BOX MODEL</div>
+            <div>THIS IS TO HOLD CONTENT WITH CSS FLEX BOX MODEL</div>
+            <div>THIS IS TO HOLD CONTENT WITH CSS FLEX BOX MODEL</div>
+            <div>THIS IS TO HOLD CONTENT WITH CSS FLEX BOX MODEL</div>
+        </div>
+        <hr>
+        <h1>CSS Grid Box Model</h1>
+        <hr>
+        <div class="calculator">
+            <input type="text" placeholder="Calculate">
+            <div class="my-calculator">
+                <div>1</div><div>2</div><div>3</div><div>+</div>
+                <div>4</div><div>5</div><div>6</div><div>-</div>
+                <div>7</div><div>8</div><div>9</div><div>*</div>
+                <div>.</div><div>0</div><div>/</div><div>=</div>
+            </div>
+        </div>
+    </body>
+</html>

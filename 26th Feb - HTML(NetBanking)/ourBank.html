@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUR BANK - Secure & Simple Banking</title> <!-- More Engaging Title -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"> <!-- Modern Font -->
+<style>
+:root {
+--primary-teal: #26A69A;
+--secondary-yellow: #FFEB3B;
+--light-grey-bg: #F8F8F8; /* Slightly lighter background */
+--dark-grey-content-bg: #FFFFFF; /* White content background for cleaner look */
+--black-text: #333333; /* Darker text for better readability */
+--medium-grey-text: #757575;
+--accent-soft-gold: #FFD700;
+--text-dark: #333333;
+--text-light: #777777;
+--background-light: #F5F5F5;
+--white: #FFFFFF;
+--shadow-color: rgba(0, 0, 0, 0.08); /* Soft shadow color */
+}
+body {
+        font-family: 'Poppins', sans-serif; /* Modern Font */
+        margin: 0;
+        color: var(--black-text);
+        background-color: var(--light-grey-bg);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        line-height: 1.6; /* Improved line height for readability */
+        -webkit-font-smoothing: antialiased; /* Better font rendering for webkit */
+        -moz-osx-font-smoothing: grayscale; /* Better font rendering for firefox */
+    }
+
+    .header {
+        background-color: var(--primary-teal);
+        color: white;
+        text-align: center;
+        padding: 40px 0; /* Increased padding */
+        position: relative; /* For subtle background pattern */
+        overflow: hidden; /* Clip background pattern */
+    }
+
+    /* Subtle Diagonal Line Pattern for Header */
+    .header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.05) 75%, transparent 75%, transparent);
+        background-size: 10px 10px;
+        opacity: 0.2;
+        z-index: 0; /* Behind text */
+    }
+
+    .header > * {
+        position: relative; /* Ensure text is above pattern */
+        z-index: 1;
+    }
+
+    .header h1 {
+        margin-bottom: 10px; /* Increased margin */
+        font-size: 2.8em; /* Slightly larger title */
+        letter-spacing: -0.02em; /* Slightly tighter letter spacing */
+        font-weight: 600; /* Bolder font weight */
+    }
+
+    .header h2 {
+        font-size: 1.2em; /* Slightly larger subtitle */
+        font-weight: 400; /* Lighter font weight for subtitle */
+        color: rgba(255, 255, 255, 0.8); /* Slightly softer white */
+    }
+
+    .middle-section {
+        display: flex;
+        width: 92%; /* Slightly wider middle section */
+        background-color: var(--dark-grey-content-bg); /* White background */
+        box-shadow: 0 5px 15px var(--shadow-color); /* Softer, more pronounced shadow */
+        flex-grow: 1;
+        margin: 30px auto; /* Increased top margin */
+        padding: 30px; /* Increased padding */
+        border-radius: 8px; /* Rounded corners for middle section */
+    }
+
+    .nav {
+        width: 240px; /* Slightly wider nav */
+        padding-right: 30px; /* Increased padding */
+        background-color: var(--primary-teal);
+        color: white;
+        border-radius: 8px 0 0 8px; /* Rounded corners for nav */
+        overflow: hidden; /* Clip hover effect within rounded corners */
+    }
+
+    .nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav ul li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Softer border */
+    }
+
+    .nav ul li:last-child {
+        border-bottom: none;
+    }
+
+    .nav ul li a {
+        display: block;
+        padding: 18px 25px; /* Increased padding for nav links */
+        text-decoration: none;
+        color: white;
+        transition: background-color 0.3s ease, padding-left 0.3s ease; /* Smooth transition for padding too */
+        font-weight: 500; /* Slightly bolder nav link text */
+    }
+
+    .nav ul li a:hover {
+        background-color: var(--secondary-yellow);
+        color: var(--black-text); /* Dark text on hover */
+        padding-left: 35px; /* Subtle hover animation */
+    }
+
+    .main-content {
+        flex-grow: 1;
+        padding: 40px; /* Increased padding for main content */
+    }
+
+    .content-section {
+        display: none;
+        padding: 25px;
+        animation: fadeIn 0.5s ease-out forwards; /* Fade-in animation */
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-section:target {
+        display: block;
+    }
+
+    .content-section h2 {
+        color: var(--primary-teal);
+        margin-top: 0;
+        border-bottom: 2px solid var(--primary-teal);
+        padding-bottom: 10px; /* Increased padding below heading */
+        font-size: 2em; /* Slightly larger section headings */
+        font-weight: 600; /* Bolder headings */
+        margin-bottom: 25px; /* Increased margin below heading */
+    }
+
+    .footer {
+        text-align: center;
+        padding: 25px 0; /* Increased padding */
+        background-color: var(--primary-teal);
+        color: white;
+        font-size: 0.95em; /* Slightly larger footer text */
+        margin-top: 30px; /* Increased margin */
+        border-radius: 0 0 8px 8px; /* Rounded corners for footer */
+    }
+
+    #services.content-section ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Slightly wider service boxes */
+        gap: 25px; /* Increased gap */
+        padding: 0;
+    }
+
+    #services.content-section ul li {
+        background-color: var(--background-light);
+        border-radius: 12px; /* More rounded service boxes */
+        padding: 30px; /* Increased padding */
+        box-shadow: 0 4px 10px var(--shadow-color); /* Softer shadow */
+        border-bottom: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hover effect */
+    }
+
+    #services.content-section ul li:hover {
+        transform: translateY(-5px); /* Lift effect on hover */
+        box-shadow: 0 8px 20px var(--shadow-color); /* More pronounced shadow on hover */
+    }
+
+    #services.content-section ul li strong {
+        color: var(--primary-teal);
+        display: block; /* Make strong a block for spacing */
+        margin-bottom: 10px; /* Add space below service title */
+        font-size: 1.2em; /* Slightly larger service title */
+    }
+
+    #netbanking.content-section {
+        max-width: 550px; /* Slightly wider form */
+        margin-left: auto;
+        margin-right: auto;
+        padding: 50px; /* Increased padding */
+        background-color: var(--background-light); /* Light background for form */
+        border-radius: 12px; /* Rounded form */
+        box-shadow: 0 5px 15px var(--shadow-color); /* Shadow for form */
+    }
+
+    #netbanking .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px; /* Increased gap in form */
+    }
+
+    #netbanking .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #netbanking label {
+        font-weight: 500;
+        margin-bottom: 10px; /* Increased margin */
+        color: var(--text-dark); /* Darker label text */
+        font-size: 1.05em; /* Slightly larger label */
+    }
+
+    #netbanking input[type="text"],
+    #netbanking input[type="password"] {
+        padding: 15px 20px; /* Increased padding for inputs */
+        border: 1px solid #ddd;
+        border-radius: 8px; /* Rounded inputs */
+        font-size: 1em;
+        color: var(--text-dark);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Input transition */
+    }
+
+    #netbanking input[type="text"]:focus,
+    #netbanking input[type="password"]:focus {
+        outline: none;
+        border-color: var(--primary-teal);
+        box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.25); /* More pronounced focus shadow */
+    }
+
+    #netbanking .login-button {
+        padding: 16px 25px; /* Increased button padding */
+        background-color: var(--primary-teal);
+        color: var(--white);
+        border: none;
+        border-radius: 8px; /* Rounded button */
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Button transition */
+        font-weight: 500;
+        box-shadow: 0 2px 5px var(--shadow-color); /* Button shadow */
+    }
+
+    #netbanking .login-button:hover {
+        background-color: #1E847A;
+        transform: scale(1.02); /* Subtle scale on hover */
+        box-shadow: 0 4px 8px var(--shadow-color); /* Increased shadow on hover */
+    }
+
+    #netbanking .login-button:active {
+        transform: scale(1); /* Reset scale on active */
+        box-shadow: 0 2px 5px var(--shadow-color); /* Reset shadow on active */
+    }
+
+    #netbanking .signup-link {
+        text-align: center;
+        margin-top: 15px; /* Add margin above signup link */
+        color: var(--medium-grey-text);
+    }
+
+    #netbanking .signup-link a {
+        color: var(--primary-teal);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    #netbanking .signup-link a:hover {
+        color: #1E847A; /* Darker teal on hover */
+    }
+
+    #signup.content-section {
+        text-align: center; /* Center align signup content */
+    }
+
+    #signup.content-section h2 {
+        text-align: center; /* Center align signup heading */
+    }
+
+    #signup .back-to-login {
+        display: inline-block;
+        padding: 14px 30px; /* Increased padding for back button */
+        background-color: var(--background-light); /* Light background for button */
+        color: var(--text-dark);
+        text-decoration: none;
+        border-radius: 8px; /* Rounded button */
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Button transition */
+        box-shadow: 0 2px 5px var(--shadow-color); /* Button shadow */
+        font-weight: 500;
+        margin-top: 20px; /* Add margin above back to login button */
+    }
+
+    #signup .back-to-login:hover {
+        background-color: #E0E0E0; /* Slightly darker grey on hover */
+        transform: scale(1.02); /* Subtle scale on hover */
+        box-shadow: 0 4px 8px var(--shadow-color); /* Increased shadow on hover */
+    }
+
+    #signup .back-to-login:active {
+        transform: scale(1); /* Reset scale on active */
+        box-shadow: 0 2px 5px var(--shadow-color); /* Reset shadow on active */
+    }
+</style>
+Use code with caution.
+</head>
+<body>
+<div class="header">
+<h1>OUR BANK</h1>
+<h2>Experience Banking Made Easy</h2> <!-- More Engaging Subtitle -->
+</div>
+<div class="middle-section">
+    <div class="nav">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#netbanking">NetBanking</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div id="home" class="content-section">
+            <h2>Welcome to the Future of Banking</h2> <!-- More Engaging Heading -->
+            <p>At OUR BANK, we're committed to providing secure, reliable, and innovative banking solutions tailored to your modern life.  Start your financial journey with us and discover a seamless banking experience.</p>
+            <p>Explore our comprehensive suite of services, designed to empower you to achieve your financial aspirations. From flexible savings accounts to personalized loan options, we're here to support you every step of the way.</p>
+        </div>
+
+        <div id="about" class="content-section">
+            <h2>Driven by Trust and Innovation</h2> <!-- More Engaging Heading -->
+            <p>OUR BANK is built on a foundation of trust, integrity, and a relentless pursuit of innovation.  We believe in empowering our customers through transparent and customer-centric banking practices.</p>
+            <p>Learn about our journey, our mission to redefine banking, and the core values that guide us in everything we do. We are more than just a bank; we are your financial partner.</p>
+        </div>
+
+        <div id="services" class="content-section">
+            <h2>Explore Our Tailored Banking Solutions</h2> <!-- More Engaging Heading -->
+            <p>Discover a diverse range of services meticulously crafted to meet your unique financial needs.  Each service is designed with your convenience and financial well-being in mind. Click on a service below to delve deeper.</p>
+            <ul>
+                <li>
+                    <strong>Savings Accounts</strong>
+                    <p>Build a secure financial foundation with our diverse savings account options. Enjoy competitive interest rates, flexible access, and watch your savings grow.</p>
+                </li>
+                <li>
+                    <strong>Loans & Mortgages</strong>
+                    <p>Unlock your dreams with our customized loan and mortgage solutions. We offer competitive rates and flexible terms to help you achieve your life goals, from homeownership to personal projects.</p>
+                </li>
+                <li>
+                    <strong>Credit Cards</strong>
+                    <p>Experience financial freedom and rewards with our range of credit cards. Benefit from exclusive perks, secure spending, and manage your finances with ease.</p>
+                </li>
+                <li>
+                    <strong>Investment Options</strong>
+                    <p>Maximize your financial potential with our expert investment services. We provide a spectrum of investment opportunities to help you grow your wealth and secure your future.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="netbanking" class="content-section">
+            <h2>Securely Access Your Account - NetBanking Login</h2> <!-- More Engaging Heading -->
+            <p>Log in to our secure NetBanking platform to manage your accounts, transactions, and more, anytime, anywhere. Your financial security is our top priority.</p>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="username">Customer ID</label>
+                    <input type="text" id="username" name="username" placeholder="Enter Your Customer ID"
+                           required pattern="[a-zA-Z0-9]+" title="Customer ID must be alphanumeric">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Your Password"
+                           required minlength="6" title="Password must be at least 6 characters long">
+                </div>
+                <button type="submit" class="login-button">Login to NetBanking</button> <!-- More specific button text -->
+                <div class="signup-link">
+                    <p>New to OUR BANK? <a href="#signup">Create an Account</a></p> <!-- More inviting signup link -->
+                </div>
+            </form>
+
+        </div>
+
+        <div id="signup" class="content-section">
+            <h2>Join OUR BANK Today</h2> <!-- More Inviting Heading -->
+            <p>Open an account with OUR BANK and step into a world of convenient and secure online banking.  Sign up is quick and easy!</p>
+            <a href="#netbanking" class="back-to-login">Back to Login</a>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    © 2023 www.ourbank.com - Banking Reimagined <!-- More Engaging Footer Text -->
+</div>
+</body>
+</html>
