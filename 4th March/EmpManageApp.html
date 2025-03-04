@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Navigation</h2>
+            <ul>
+                <li><a href="#add-employee">Add Employee</a></li>
+                <li><a href="#search-employee">Search Employee</a></li>
+                <li><a href="#remove-employee">Remove Employee</a></li>
+                <li><a href="#update-salary">Update Salary</a></li>
+                <li><a href="#all-employees">All Employees</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h1>Employee Management</h1>
+
+            <div id="add-employee">
+                <h2>Add Employee</h2>
+                <form id="addEmployeeForm">
+                    <input type="text" id="empName" placeholder="Employee Name" required />
+                    <input type="number" id="empAge" placeholder="Employee Age" required />
+                    <label for="empDesignation">Employee Designation:</label>
+                    <select id="empDesignation" required>
+                        <option value="clerk">Clerk</option>
+                        <option value="programmer">Programmer</option>
+                        <option value="manager">Manager</option>
+                    </select><br><br>
+                    <button onclick="addEmployeeFromHTML()" type="submit">Add Employee</button>
+                </form>
+                <div id="addResult"></div>
+            </div>
+
+            <div id="search-employee">
+                <h2>Search Employee</h2>
+                <div class="input-area">
+                    <input type="text" id="searchEmpId" placeholder="Employee ID" />
+                    <button  onclick="searchEmployeeFromHTML()" id="searchEmployeeBtn">Search</button>
+                </div>
+                <div id="searchResult"></div>
+            </div>
+
+            <div id="remove-employee">
+                <h2>Remove Employee</h2>
+                <div class="input-area">
+                    <input type="text" id="removeEmpId" placeholder="Employee ID to Remove" />
+                    <button id="removeEmployeeBtn" onclick="removeEmployeeFromHTML()">Remove Employee</button>
+                </div>
+                <div id="removeResult"></div>
+            </div>
+
+            <div id="update-salary">
+                <h2>Update Employee Salary</h2>
+                <form id="updateSalaryForm">
+                    <input type="text" id="updateEmpId" placeholder="Employee ID" required />
+                    <input type="number" id="newSalary" placeholder="New Salary" required min="0"/>
+                    <button onclick="updateEmployeeSalaryFromHTML()" type="submit">Update Salary</button>
+                </form>
+                <div id="updateSalaryResult"></div>
+            </div>
+
+            <div id="all-employees">
+                <h2>All Employees</h2>
+                <div id="employeeList"></div>
+                <button onclick="displayEmployeesFromHTML()">Display Employees</button>
+            </div>
+        </main>
+    </div>
+    <script src="EmpManageApp.js"></script>
+</body>
+</html>
