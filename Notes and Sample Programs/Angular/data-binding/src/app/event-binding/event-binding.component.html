@@ -1,0 +1,4 @@
+<h2>Event Binding</h2>
+<button (click)="display()" >WELCOME</button>
+<input #mi (change)="printMessage(mi.value)">     <!-- Local template reference -->
+<button (click)="printMessage(mi.value)">SEND MESSAGE</button>
