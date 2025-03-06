@@ -1,0 +1,14 @@
+
+<input type="radio" name="calculator" value="loan" #loan (click)="onSelectCalculator(loan.value)"> Loan Calculator
+<input type="radio" name="calculator" value="deposit" #deposit (click)="onSelectCalculator(deposit.value)"> Deposit Calculator
+<input type="radio" name="calculator" value="mutualF" #mutualF (click)="onSelectCalculator(mutualF.value)"> Mutual Funds Calculator
+
+<div *ngIf="selectedCalculator === 'loan'">
+    <app-loan></app-loan>
+</div>
+<div *ngIf="selectedCalculator === 'deposit'">
+    <app-deposit></app-deposit>
+</div>
+<div *ngIf="selectedCalculator === 'mutualF'">
+    <app-mutual-funds></app-mutual-funds>
+</div>

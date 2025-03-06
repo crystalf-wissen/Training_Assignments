@@ -1,0 +1,40 @@
+
+<div class="main-content">
+    <div id="loanCalculatorContainer" class="calculator-container">
+        <h1>Loan Calculator</h1>
+        <form id="loanForm">
+            <div class="form-group">
+                <label for="applicantName">Applicant Name:</label>
+                <input type="text" id="applicantName" placeholder="Enter your name" required pattern="^[a-zA-Z\s\.\-]+$" title="Only letters, spaces, periods, and hyphens are allowed.">
+            </div>
+            <div class="form-group">
+                <label for="loanType">Loan Type:</label>
+                <select id="loanType" name="loanType" [(ngModel)]="loanType" required (change)="updateDetails()">
+                    <option value="">Select Loan Type</option>
+                    <option value="home">Home Loan</option>
+                    <option value="car">Car Loan</option>
+                    <option value="personal">Personal Loan</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="interestRate">Interest Rate:</label>
+                <input type="text" id="interestRate" name="interestRate" [(ngModel)]="interestRate" readonly>
+            </div>
+            <div class="form-group">
+                <label for="loanTenure">Loan Tenure (Years):</label>
+                <input type="number" id="loanTenure" placeholder="Enter loan tenure" name="loanTenure" [(ngModel)]="loanTenure" required (change)="validateLoanTenure()" min="0">
+                <span id="tenureRange" class="range-info"></span>
+            </div>
+            <div class="form-group">
+                <label for="loanAmount">Loan Amount:</label>
+                <input type="number" id="loanAmount" placeholder="Enter loan amount" name="loanAmount" [(ngModel)]="loanAmount" required (change)="validateLoanAmount()" min="0">
+                <span id="amountRange" class="range-info"></span>
+            </div>
+            <div class="form-group">
+                <label for="emi">EMI (Monthly Installment):</label>
+                <input type="text" id="emi" name="emi" [(ngModel)]="emi" readonly>
+            </div>
+            <button type="submit" (click)="calculateEMI()">CALCULATE</button>
+        </form>
+    </div>
+</div>
