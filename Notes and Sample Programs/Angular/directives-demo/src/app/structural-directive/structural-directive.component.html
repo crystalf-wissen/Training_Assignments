@@ -1,0 +1,33 @@
+<h2>Structural Directives Demo</h2>
+<hr>
+<h3>
+    <!-- THIS PART THE NG TEMPLATE SHOULD BE DEFINED THERE ITSELF
+    <div *ngIf="flag; else doThis">JUST FOR DEMO OF STRUCTURAL DIRECTIVES</div>
+    <ng-template #doThis><p>This is a demo of structural directive 'ngIf'.</p></ng-template> -->
+    
+    <!-- THI SPART SHOWS WE CAN HAVE THE NG TEMPLATES SCATTERED ACROSS -->
+    <div *ngIf="flag; then do_this else do_other"></div>
+    <hr>
+    <b>JUST A SEPARATOR</b>
+    <ng-template #do_this><p>Message2</p></ng-template>
+    <ng-template #do_other><p>Message3</p></ng-template>
+</h3>
+<button (click)="toggle()">CLICK TO DISPLAY</button>
+
+<h3> List of fruits:-
+    <ul>
+        <li *ngFor="let fruit of fruits">{{ fruit }}</li>
+    </ul>
+</h3>
+<input #mf>
+<button (click)="addFruit(mf.value)">ADD FRUIT</button>
+
+<h3>Count: {{ count }} </h3>
+<span [ngSwitch]="count">
+    <h3 *ngSwitchCase="1">GOOD MORNING</h3>
+    <h3 *ngSwitchCase="2">GOOD AFTERNOON</h3>
+    <h3 *ngSwitchCase="3">GOOD EVENING</h3>
+    <h3 *ngSwitchCase="4">GOOD NIGHT</h3>
+    <h3 *ngSwitchDefault>HAVE A GOOD DAY</h3>
+</span>
+<button (click)="incrCount()">SWITCH GREETINGS</button>

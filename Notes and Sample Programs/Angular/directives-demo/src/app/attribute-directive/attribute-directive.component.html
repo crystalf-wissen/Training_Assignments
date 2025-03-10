@@ -1,0 +1,16 @@
+<h2>Attribute Directives Demo</h2>
+<hr>
+<h3>
+    <div [ngClass]="{brdr: brderColor, bg:bgColor}">
+        JUST FOR DEMO PURPOSES CREATED THIS DIV BLOCK TO SHOW NGCLASS
+    </div>
+    <button (click)="toggleBgColor()">Change Color</button>
+    <button (click)="toggleBorderColor()">Toggle Border</button>
+</h3>
+<h3>
+    <div [ngStyle]="{'background-color': color}">
+        JUST FOR DEMO PURPOSES CREATED THIS DIV BLOCK TO SHPW NGSTYLE
+        <input type="text" #mc>
+        <button (click)="setColor(mc.value)">Change Color</button>
+    </div>
+</h3>

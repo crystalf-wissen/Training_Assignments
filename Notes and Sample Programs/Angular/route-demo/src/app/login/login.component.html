@@ -1,0 +1,17 @@
+<h2> Please Login</h2>
+<span>{{ msg }} </span>
+<form (submit)="abc($event)">
+    Username: <input type="text" name="uname" required><br>
+    Password: <input type="password" name="pwd" required><br>
+    Role:
+        <select>
+            <option>Manager</option>
+            <option>Admin</option>
+            <option>Employee</option>
+        </select>
+    <br>
+    <input type="submit" value="LOGIN">
+    <input type="reset" value="CLEAR">
+    <br>
+    New User? Sign Up <a routerLink="">Here</a>
+</form>

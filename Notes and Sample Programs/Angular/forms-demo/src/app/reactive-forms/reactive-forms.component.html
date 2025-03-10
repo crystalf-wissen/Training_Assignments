@@ -1,0 +1,12 @@
+<h2>Template Driven Form</h2>
+<form [formGroup]="employeeForm" (ngSubmit)="abc(employeeForm.value)">
+    <h3>
+        Enter Name: <input type="text" name="uname" formControlName="user" required><br>
+        Enter Age: <input type="number" name="age" formControlName="age" required><br>
+        Enter Salary: <input type="number" name="salary" formControlName="salary" required><br>
+        Enter Designation: <input type="text" name="designation" formControlName="designation" required><br>
+        <br>
+        <input type="submit" value="SUBMIT" [disabled]="employeeForm.invalid">
+        <input type="reset" value="RESET">
+    </h3>
+</form>

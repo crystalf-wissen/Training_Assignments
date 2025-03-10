@@ -1,0 +1,24 @@
+<h3>
+    {{ str }} <br>
+    {{ str | uppercase }} <br>
+    {{ str | lowercase }} <br>
+    {{ str | titlecase }} <br>
+    {{ str | slice:3:6 }} <br>
+    {{ str | slice:-3 }} <br>
+    <br>
+    {{ amt }} <br>
+    {{ amt | currency }} <br>
+    {{ amt | currency:'INR' }} <br>
+    {{ amt | currency:'EUR' }} <br>
+    {{ amt | currency:'GBP' }} <br>
+    {{ amt | currency:'JPY' }} <br>
+    {{ amt | currency:'SAR' }} <br>
+    <br>
+    {{ dt }} <br>
+    {{ dt | date:'yyyy-MM-dd' }} <br>
+    {{ dt | date:'dd/MM/yyyy hh:mm:ss' }} <br>
+    {{ dt | date:'fullDate' }} <br>
+    {{ dt | date:'long' }} <br>
+    <br>
+    {{ dt | date:'fullDate' | uppercase | slice : 9 : 17 }} <br>
+</h3>

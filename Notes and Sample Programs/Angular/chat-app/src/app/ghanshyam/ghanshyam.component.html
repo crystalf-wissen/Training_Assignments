@@ -1,0 +1,9 @@
+<div class="container">
+    <h2>GHANSHYAM</h2>
+    <div class="messages">
+      <h3 *ngFor="let msg of cs.messages">{{ msg }}</h3>
+    </div>
+    <input #mi type="text" placeholder="Type your message...">
+    <button (click)="sendMessage(mi.value)">SEND MESSAGE</button>
+  </div>
+  
