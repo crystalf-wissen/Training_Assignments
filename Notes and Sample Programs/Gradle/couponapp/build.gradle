@@ -1,0 +1,9 @@
+subprojects {
+    tasks.register("printProjectName"){
+        def projectName = project.name;
+
+        doLast {
+            println("Project Name:  $projectName");
+        }
+    }
+}
