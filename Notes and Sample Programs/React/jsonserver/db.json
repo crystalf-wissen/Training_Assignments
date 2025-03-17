@@ -1,0 +1,39 @@
+{
+  "employees": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "age": 30,
+      "salary": 40000,
+      "designation": "HR"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "age": 25,
+      "salary": 50000,
+      "designation": "IT"
+    },
+    {
+      "id": "3",
+      "name": "Michael Johnson",
+      "age": 40,
+      "salary": 60000,
+      "designation": "Finance"
+    },
+    {
+      "id": "4",
+      "name": "Emily Davis",
+      "age": 35,
+      "salary": 55000,
+      "designation": "HR"
+    },
+    {
+      "id": "6",
+      "name": "Carol",
+      "age": "21",
+      "salary": "300000",
+      "designation": "Tester"
+    }
+  ]
+}

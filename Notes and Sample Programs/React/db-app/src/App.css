@@ -1,0 +1,23 @@
+h1 {
+  color: red;
+}
+
+h2 {
+  color:blue;
+}
+
+h3 {
+  color: purple;
+}
+
+* {
+  text-align: center;
+}
+
+table {
+  justify-self: center;
+}
+
+input {
+  margin-bottom:2px;
+}
