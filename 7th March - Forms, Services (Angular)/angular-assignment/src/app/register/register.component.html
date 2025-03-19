@@ -1,0 +1,34 @@
+<h2>Register</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <label>Customer ID:</label>
+  <input type="text" formControlName="customerId" />
+  <small *ngIf="registerForm.get('customerId')?.invalid && registerForm.get('customerId')?.touched">
+    Must be exactly 7 digits
+  </small>
+
+  <label>Username:</label>
+  <input type="text" formControlName="username" />
+  <small *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+    Min 5 letters, no numbers
+  </small>
+
+  <label>Password:</label>
+  <input type="password" formControlName="password" />
+  <small *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+    Min 8 chars, 1 uppercase, 1 lowercase, 1 special char
+  </small>
+
+  <label>Confirm Password:</label>
+  <input type="password" formControlName="confirmPassword" />
+  <small *ngIf="registerForm.get('confirmPassword')?.errors?.confirmPassword">
+    Passwords do not match!
+  </small>
+
+  <label>Account No:</label>
+  <input type="text" formControlName="accountNo" />
+  <small *ngIf="registerForm.get('accountNo')?.invalid && registerForm.get('accountNo')?.touched">
+    Must be at least 6 digits
+  </small>
+
+  <button type="submit" [disabled]="registerForm.invalid">Register</button>
+</form>
